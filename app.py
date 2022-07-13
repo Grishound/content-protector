@@ -20,17 +20,17 @@ def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
 #SQLite DB used locally
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+#migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
 bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
-    password = db.Column(db.String(100), nullable = False)
+    password = db.Column(db.String(200), nullable = False)
     email = db.Column(db.String(50), nullable = False, unique = True)
     content = db.Column(db.String(500))
     public_key = db.Column(db.Integer)
