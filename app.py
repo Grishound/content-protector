@@ -18,7 +18,10 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+#SQLite DB used locally
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'secretkey'
 bcrypt = Bcrypt(app)
@@ -210,3 +213,7 @@ def register():
 
 if __name__ == '__main__':
     app.run(debug = True)
+
+
+#bro is working (username == password == bro)
+#67841026640973768091576186761352411845779607461799080603339587583946038223271776903898246855037460097759941320933873793868625681672819524387252934987700657730356491073006074078164942604610803396165729528790893729558692033533149853378161339521608009346334518078402936160139748765472072801026613937337877025049
