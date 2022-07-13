@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from random import randint
 from secret import *
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_migrate import Migrate
 
 phi_of_n = (p-1)*(q-1)
 app = Flask(__name__)
@@ -23,6 +24,7 @@ def load_user(user_id):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
 bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
