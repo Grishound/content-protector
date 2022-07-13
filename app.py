@@ -22,7 +22,7 @@ def load_user(user_id):
 #SQLite DB used locally
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
