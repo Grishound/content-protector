@@ -20,11 +20,11 @@ def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
 #SQLite DB used locally
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 db = SQLAlchemy(app)
-#migrate = Migrate(app, db)
+migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
 bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
@@ -208,7 +208,7 @@ def register():
             global_d = str(d)
             global_e = e
             hashed_password = bcrypt.generate_password_hash(input_password)
-            new_user = User(username = input_username, password = hashed_password, email = input_email, content = 'hello', one_time_login = 0, public_key = e)
+            new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
             db.session.add(new_user)
             db.session.commit()
             return render_template('index.html')
@@ -217,5 +217,5 @@ if __name__ == '__main__':
     app.run(debug = True)
 
 
-#bro is working (username == password == bro)
-#67841026640973768091576186761352411845779607461799080603339587583946038223271776903898246855037460097759941320933873793868625681672819524387252934987700657730356491073006074078164942604610803396165729528790893729558692033533149853378161339521608009346334518078402936160139748765472072801026613937337877025049
+#atul is working (username == password == atul)
+#33342372674864950416245313360873974572911523389633107687089191701232765094761402242515809351589928194967029130793123384055931815885097592491419395649811746354861525711527152503732622415683711952516410715414143335871279662338962475211035415637025083389559942651909478078601553983216782607021679864452387677389
