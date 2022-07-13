@@ -30,7 +30,7 @@ bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
-    password = db.Column(db.String(200), nullable = False)
+    password = db.Column(db.String(500), nullable = False)
     email = db.Column(db.String(50), nullable = False, unique = True)
     content = db.Column(db.String(500))
     public_key = db.Column(db.Integer)
