@@ -208,7 +208,7 @@ def register():
             global_d = str(d)
             global_e = e
             hashed_password = bcrypt.generate_password_hash(input_password)
-            new_user = User(username = input_username, password = hashed_password, email = input_email, content = "hello", one_time_login = 0, public_key = e)
+            new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
             db.session.add(new_user)
             db.session.commit()
             return render_template('index.html')
