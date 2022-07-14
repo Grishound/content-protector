@@ -163,7 +163,7 @@ def validate_user(username, email):
     existing_email = User.query.filter_by(email = email).first()
     if existing_email:
         raise ValidationError(
-            "The email is already used. Please chose another email.")
+            "The email is already used. Please chose another email. DAmn bro")
     return True
 
 def MI(num, mod):
