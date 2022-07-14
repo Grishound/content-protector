@@ -22,9 +22,11 @@ def load_user(user_id):
 #SQLite DB used locally
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
+#first_postgres
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://abtlbysebxpqrb:d0b1ae227e4ff8249dcac8919b5f8b8efa56b58233f0424a6a1301262d7057d1@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dalnnavugi3sqs'
+#second_postgres
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://abtlbysebxpqrb:d0b1ae227e4ff8249dcac8919b5f8b8efa56b58233f0424a6a1301262d7057d1@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dalnnavugi3sqs'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -32,7 +34,7 @@ bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
-    password = db.Column(db.String(500), nullable = False)
+    password = db.Column(db.Binary(150), nullable = False)
     email = db.Column(db.String(50), nullable = False, unique = True)
     content = db.Column(db.String(500))
     public_key = db.Column(db.Integer)
