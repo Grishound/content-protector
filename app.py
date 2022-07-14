@@ -23,13 +23,13 @@ def load_user(user_id):
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 #first_postgres
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bcxypjdsubffsu:e0820b5570e8d8a24771064baccc4203b9d3fe217dc5c5a4115db90b3c30628a@ec2-34-233-115-14.compute-1.amazonaws.com:5432/damloci9q74psb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 #second_postgres
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://abtlbysebxpqrb:d0b1ae227e4ff8249dcac8919b5f8b8efa56b58233f0424a6a1301262d7057d1@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dalnnavugi3sqs'
+#app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 #third_postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tdvoazvckmsvzl:b18947eaaf52c69a2b3bf56d7e0cd253de44ac7f390a0390a945acd89effb2cd@ec2-34-235-198-25.compute-1.amazonaws.com:5432/dfsgpr5f7ea43o'
+app.config['SQLALCHEMY_DATABASE_URI'] = ''
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
