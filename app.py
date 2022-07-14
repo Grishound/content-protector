@@ -37,7 +37,7 @@ bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
-    password = db.Column(db.Binary(150), nullable = False)
+    password = db.Column(db.String(500), nullable = False)
     email = db.Column(db.String(50), nullable = False, unique = True)
     content = db.Column(db.String(500))
     public_key = db.Column(db.Integer)
@@ -214,7 +214,7 @@ def register():
             d, e = create_keys()
             global_d = str(d)
             global_e = e
-            hashed_password = bcrypt.generate_password_hash(input_password)
+            hashed_password = bcrypt.generate_password_hash(input_password).decode('utf-8')
             new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
             db.session.add(new_user)
             db.session.commit()
