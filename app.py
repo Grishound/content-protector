@@ -196,11 +196,12 @@ def create_keys():
         for i in range(11):
             arr[i] = str(randint(0, 1))
         final = int(''.join(arr), 2)
-        check = MI(final, phi_of_n)
-        if check != 0:
-            existing_e = User.query.filter_by(public_key = final).first()
-            if existing_e == None:
-                return (check, final)
+        else:
+            check = MI(final, phi_of_n)
+            if check > 0:
+                existing_e = User.query.filter_by(public_key = final).first()
+                if existing_e == None:
+                    return (check, final)
 
 @app.route('/register', methods= ["GET", "POST"])
 def register():
