@@ -29,7 +29,7 @@ def load_user(user_id):
 #app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 #third_postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = ''
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tdvoazvckmsvzl:b18947eaaf52c69a2b3bf56d7e0cd253de44ac7f390a0390a945acd89effb2cd@ec2-34-235-198-25.compute-1.amazonaws.com:5432/dfsgpr5f7ea43o'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -51,7 +51,7 @@ def home():
 def forgot():
     return 'YOOOOO \n \t say sike'
 
-def validate_login(username, password):
+def validate_login(username):
     existing_username = User.query.filter_by(username = username).first()
     if existing_username:
         return True
@@ -64,15 +64,14 @@ def login():
     if request.method == "POST":
         input_username = request.form["logname"]
         input_password = request.form["logpass"]
-        if validate_login(input_username, input_password):
+        if validate_login(input_username):
             user = User.query.filter_by(username = input_username).first()
-            if user:
-                if bcrypt.check_password_hash(user.password, input_password):
-                    login_user(user)
-                    return dashboard(input_username, input_password)
-                else:
-                    raise ValidationError(
-                        "No such username exists. Please register first.")
+            if bcrypt.check_password_hash(user.password, input_password):
+                login_user(user)
+                return dashboard(input_username, input_password)
+            else:
+                raise ValidationError(
+                    "Username and Password do not match.")
             
 @app.route('/dashboard', methods = ["GET", "POST"])
 @login_required
