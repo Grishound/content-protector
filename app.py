@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 
 phi_of_n = (p-1)*(q-1)
 app = Flask(__name__)
-global_d = -1
+global_d = -100
 global_e = -1
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -200,7 +200,8 @@ def create_keys():
         if check > 0:
             existing_e = User.query.filter_by(public_key = final).first()
             if existing_e == None:
-                return (check, final)
+                if final > 0:
+                    return (check, final)
 
 @app.route('/register', methods= ["GET", "POST"])
 def register():
