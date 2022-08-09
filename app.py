@@ -9,8 +9,7 @@ from flask_migrate import Migrate
 
 phi_of_n = (p-1)*(q-1)
 app = Flask(__name__)
-global_d = -100
-global_e = -1
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -76,13 +75,7 @@ def login():
 @app.route('/dashboard', methods = ["GET", "POST"])
 @login_required
 def dashboard(input_username, input_password):
-    user = User.query.filter_by(username = input_username).first()
-    if user.one_time_login == 0:
-        user.one_time_login = 1
-        db.session.commit()
-        return render_template('first_time.html', private_key = global_d)
-    else:
-        return render_template('ask_for_private_key.html', username = input_username)
+    return render_template('ask_for_private_key.html', username = input_username)
 
 def encrypt(message, e):
     res = ''.join(format(ord(i), '08b') for i in message)
@@ -146,8 +139,6 @@ def content_two():
             db.session.commit()
             return render_template('display.html', current_content = data, username = username)
 
-
-
 @app.route('/logout', methods = ["GET", "POST"])
 @login_required
 def logout():
@@ -197,28 +188,24 @@ def create_keys():
             arr[i] = str(randint(0, 1))
         final = int(''.join(arr), 2)
         check = MI(final, phi_of_n)
-        if check > 0:
+        if check > 0 and final > 0:
             existing_e = User.query.filter_by(public_key = final).first()
-            if existing_e == None:
-                if final > 0:
-                    return (check, final)
+            if not existing_e:
+                return (check, final)
 
 @app.route('/register', methods= ["GET", "POST"])
 def register():
     if request.method == "POST":
-        global global_d, global_e
         input_username = request.form["logname"]
         input_email = request.form["logemail"]
         input_password = request.form["logpass"]
         if validate_user(input_username, input_email):
             d, e = create_keys()
-            global_d = str(d)
-            global_e = e
             hashed_password = bcrypt.generate_password_hash(input_password).decode('utf-8')
             new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
             db.session.add(new_user)
             db.session.commit()
-            return render_template('index.html')
+            return render_template('first_time.html', private_key = d)
 
 if __name__ == '__main__':
     app.run(debug = True)
