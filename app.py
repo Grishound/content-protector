@@ -205,6 +205,8 @@ def register():
             new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
             db.session.add(new_user)
             db.session.commit()
+            user = User.query.filter_by(username = input_username).first()
+            login_user(user)
             return render_template('first_time.html', private_key = d)
 
 if __name__ == '__main__':
