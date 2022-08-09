@@ -28,10 +28,10 @@ def load_user(user_id):
 #app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 #third_postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tdvoazvckmsvzl:b18947eaaf52c69a2b3bf56d7e0cd253de44ac7f390a0390a945acd89effb2cd@ec2-34-235-198-25.compute-1.amazonaws.com:5432/dfsgpr5f7ea43o'
+#app.config['SQLALCHEMY_DATABASE_URI'] = ''
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-app.config['SECRET_KEY'] = 'secretkey'
+#add secret key here
 bcrypt = Bcrypt(app)
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)

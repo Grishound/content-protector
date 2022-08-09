@@ -1,3 +1,4 @@
 env/
 venv/
 database_urls.txt
+secret.py
