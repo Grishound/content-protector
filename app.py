@@ -83,7 +83,6 @@ def encrypt(message, e):
     encrypted_res = pow(int_res, e, n)
     return encrypted_res
 
-
 def decrypt(num, d):
     ans = []
     decrypted_val = pow(num, d, n)
