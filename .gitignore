@@ -1,5 +1,4 @@
 env/
 venv/
 database_urls.txt
-secret.py
 users_i_created.txt
