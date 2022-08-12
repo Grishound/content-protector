@@ -55,7 +55,8 @@ def validate_login(username):
     if existing_username:
         return True
     else:
-        flash("No such username exists. Please register first.")
+        return False
+        
         #raise ValidationError("No such username exists. Please register first.")
 
 @app.route('/login', methods= ["GET", "POST"])
@@ -71,6 +72,9 @@ def login():
             else:
                 raise ValidationError(
                     "Username and Password do not match.")
+        else:
+            flash("No such username exists. Please register first.")
+            return render_template('index.html')
             
 @app.route('/dashboard', methods = ["GET", "POST"])
 @login_required
