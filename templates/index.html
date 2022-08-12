@@ -4,7 +4,10 @@
 <head>
     <title>Login</title>
     {% for message in get_flashed_messages() %}
-        {{ message }}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
     <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename = 'css/main.css') }}">
     <script src="https://kit.fontawesome.com/4edd11eb60.js" crossorigin="anonymous"></script>
