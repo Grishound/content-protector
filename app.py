@@ -158,7 +158,7 @@ def validate_user(username, email):
     if existing_email:
         return 2
         #raise ValidationError("The email is already used. Please chose another email.")
-    return True
+    return 3
 
 def MI(num, mod):
     '''
@@ -204,7 +204,7 @@ def register():
         input_email = request.form["logemail"]
         input_password = request.form["logpass"]
         value = validate_user(input_username, input_email)
-        if value == True:
+        if value == 3:
             d, e = create_keys()
             hashed_password = bcrypt.generate_password_hash(input_password).decode('utf-8')
             new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
