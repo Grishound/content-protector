@@ -56,7 +56,6 @@ def validate_login(username):
         return True
     else:
         return False
-        
         #raise ValidationError("No such username exists. Please register first.")
 
 @app.route('/login', methods= ["GET", "POST"])
@@ -70,8 +69,9 @@ def login():
                 login_user(user)
                 return dashboard(input_username, input_password)
             else:
-                raise ValidationError(
-                    "Username and Password do not match.")
+                flash("Username and Password do not match.")
+                return render_template('index.html')
+                #raise ValidationError("Username and Password do not match.")
         else:
             flash("No such username exists. Please register first.")
             return render_template('index.html')
@@ -122,7 +122,8 @@ def content():
             return render_template('display.html', current_content = current_content, username = username)
         else:
             logout_user()
-            return redirect(url_for('home'))
+            flash("Incorrect Private Key. You have been logged out.")
+            return render_template('index.html')
 
 @app.route('/content_two', methods = ["GET", "POST"])
 @login_required
@@ -151,12 +152,12 @@ def logout():
 def validate_user(username, email):
     existing_username = User.query.filter_by(username = username).first()
     if existing_username:
-        raise ValidationError(
-            "The username already exists. Please chose another username.")
+        return 1
+        #raise ValidationError("The username already exists. Please chose another username.")
     existing_email = User.query.filter_by(email = email).first()
     if existing_email:
-        raise ValidationError(
-            "The email is already used. Please chose another email. DAmn bro")
+        return 2
+        #raise ValidationError("The email is already used. Please chose another email.")
     return True
 
 def MI(num, mod):
@@ -202,7 +203,8 @@ def register():
         input_username = request.form["logname"]
         input_email = request.form["logemail"]
         input_password = request.form["logpass"]
-        if validate_user(input_username, input_email):
+        value = validate_user(input_username, input_email)
+        if value == True:
             d, e = create_keys()
             hashed_password = bcrypt.generate_password_hash(input_password).decode('utf-8')
             new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
@@ -211,6 +213,12 @@ def register():
             user = User.query.filter_by(username = input_username).first()
             login_user(user)
             return render_template('first_time.html', private_key = d)
+        elif value == 1:
+            flash("The username already exists. Please chose another username.")
+            return render_template('index.html')
+        elif value == 2:
+            flash("The email is already used. Please chose another email.")
+            return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug = True)
