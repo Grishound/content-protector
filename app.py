@@ -112,18 +112,22 @@ def content():
     if request.method == "POST":
         private_key = request.form["priv_key"]
         username = request.form["username"]
-        private_key = int(private_key)
-        user = User.query.filter_by(username = username).first()
-        if validate_private_key(private_key, user.public_key):
-            if user.content == None or user.content == "":
-                current_content = "Your text here."
+        if private_key.isnumeric():
+            private_key = int(private_key)
+            user = User.query.filter_by(username = username).first()
+            if validate_private_key(private_key, user.public_key):
+                if user.content == None or user.content == "":
+                    current_content = "Your text here."
+                else:
+                    current_content = decrypt(int(user.content), private_key)
+                return render_template('display.html', current_content = current_content, username = username)
             else:
-                current_content = decrypt(int(user.content), private_key)
-            return render_template('display.html', current_content = current_content, username = username)
+                logout_user()
+                flash("Incorrect Private Key. You have been logged out.")
+                return render_template('index.html')
         else:
-            logout_user()
-            flash("Incorrect Private Key. You have been logged out.")
-            return render_template('index.html')
+            flash("Private Key must be a natural number.")
+            
 
 @app.route('/content_two', methods = ["GET", "POST"])
 @login_required
