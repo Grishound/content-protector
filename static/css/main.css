@@ -275,5 +275,6 @@ h6 span{
 
 input {
   width: 250px;
-  padding: 50px;
+  padding: 5px;
+  margin : 50px;
 }
