@@ -127,7 +127,8 @@ def content():
                 return render_template('index.html')
         else:
             flash("Private Key must be a natural number.")
-            
+            return render_template('ask_for_private_key.html', username = username)
+
 
 @app.route('/content_two', methods = ["GET", "POST"])
 @login_required
