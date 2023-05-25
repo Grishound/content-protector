@@ -1,12 +1,18 @@
+import os
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from wtforms.validators import ValidationError
 from flask_bcrypt import Bcrypt
 from random import randint
-from secret import *
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_migrate import Migrate
+from dotenv import load_dotenv
 
+load_dotenv()
+
+p = int(os.getenv("p"))
+q = int(os.getenv("q"))
+n = int(os.getenv("n"))
 phi_of_n = (p-1)*(q-1)
 app = Flask(__name__)
 
@@ -18,21 +24,15 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
-#SQLite DB used locally
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-#first_postgres
-#app.config['SQLALCHEMY_DATABASE_URI'] = ''
+#render second postgres
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 
-#second_postgres
-#app.config['SQLALCHEMY_DATABASE_URI'] = ''
-
-#third_postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tdvoazvckmsvzl:b18947eaaf52c69a2b3bf56d7e0cd253de44ac7f390a0390a945acd89effb2cd@ec2-34-235-198-25.compute-1.amazonaws.com:5432/dfsgpr5f7ea43o'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-app.config['SECRET_KEY'] = 'secretkey'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 bcrypt = Bcrypt(app)
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
@@ -40,7 +40,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), nullable = False, unique = True)
     content = db.Column(db.String(500))
     public_key = db.Column(db.Integer)
-    one_time_login = db.Column(db.Integer, nullable = False)
 
 @app.route('/')
 def home():
@@ -212,7 +211,8 @@ def register():
         if value == 3:
             d, e = create_keys()
             hashed_password = bcrypt.generate_password_hash(input_password).decode('utf-8')
-            new_user = User(username = input_username, password = hashed_password, email = input_email, one_time_login = 0, public_key = e)
+            new_user = User(username = input_username, password = hashed_password, 
+                            email = input_email, public_key = e)
             db.session.add(new_user)
             db.session.commit()
             user = User.query.filter_by(username = input_username).first()
