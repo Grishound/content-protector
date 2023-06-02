@@ -1,0 +1,12 @@
+.private-key-statement {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.private-input,
+.private-submit {
+    display: block;
+    margin-top: 20px;
+    margin-left: 20px;
+}

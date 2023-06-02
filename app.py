@@ -6,9 +6,9 @@ from flask_bcrypt import Bcrypt
 from random import randint
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_migrate import Migrate
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-#load_dotenv()
+load_dotenv()
 
 p = int(os.getenv("p"))
 q = int(os.getenv("q"))
@@ -24,9 +24,11 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
+#SQLite DB used locally
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 #render second postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -133,6 +135,7 @@ def content():
 @login_required
 def content_two():
     if request.method == "POST":
+        flash("Saved successfully.")
         username = request.form["username"]
         data = request.form["message"]
         user = User.query.filter_by(username = username).first()

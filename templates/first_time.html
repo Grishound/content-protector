@@ -4,16 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/first_time.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>First time</title>
+    <!--<link rel="stylesheet" href="../static/css/first_time.css"-->
 </head>
 <body>
-    <h1>Welcome!!</h1>
-    <p>This is your private key:</p>
-    <p>{{private_key}}</p>
-    <p>Save this somewhere safe as you will be asked for it everytime you log in next time</p>
-    <p>to see your saved content.</p>
-    <p>Logout and login again after copying your key.</p>
+    <p class="heading">Welcome to content protector!</p>
+    <p class="boast">Storing passwords in a secure format was never easier.</p>
+    <p class="announcement-paragraph">This is your private key:</p>
+    <div class="private-key">
+        <div class="copy-button-container">
+            <button class="copy-button" onclick="
+                copyOnClick();
+            ">Copy</button>
+        </div>
+        <p class="private-key-paragraph">{{private_key}}</p>
+    </div>
+    <p class="instruction-paragraph">Save this somewhere safe as you will be asked for it everytime you log in next time to see your saved content.</p>
+    <p class="logout-paragraph">Logout and login again after copying your key.</p>
     
-    <a href="{{url_for('logout')}}">Logout</a>
+    <button class="logout-button" onclick="window.location='{{url_for('logout')}}';">Logout</button>
+
+    <script src="{{url_for('static', filename = 'javascript/first_time.js')}}" ></script>
+    <!--<script src="../static/javascript/first_time.js"></script>-->
 </body>
 </html>
